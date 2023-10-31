@@ -25,7 +25,6 @@ const Credits = (props) => {
       <h1>Credits</h1>
 
       {creditsView()}
-
       <br />
       <Link to="/">Return to Home</Link>
     </div>
