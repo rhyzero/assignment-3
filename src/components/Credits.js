@@ -49,6 +49,8 @@ const Credits = (props) => {
         />
         <button type="submit">Add Debit</button>
       </form>
+      <br></br>
+      <div>Balance: ${props.balance}</div>
       <br />
       <Link to="/">Return to Home</Link>
     </div>
