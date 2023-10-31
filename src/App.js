@@ -19,7 +19,7 @@ class App extends Component {
     // Create and initialize state
     super();
     this.state = {
-      accountBalance: 1234567.89,
+      accountBalance: 779.25,
       creditList: [],
       debitList: [],
       currentUser: {
@@ -44,7 +44,7 @@ class App extends Component {
     const today = new Date();
     e.preventDefault();
     const newItem = { amount: 0, date: "", description: "" };
-    newItem.amount = e.target[1].value;
+    newItem.amount = +parseFloat(e.target[1].value).toFixed(2);
     newItem.date =
       today.getFullYear() +
       "-" +
@@ -53,9 +53,29 @@ class App extends Component {
       today.getDate();
     newItem.description = e.target[0].value;
     this.setState({ debitList: this.state.debitList.concat(newItem) });
-    console.log(
-      today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate()
-    );
+    this.setState({
+      accountBalance: this.state.accountBalance - newItem.amount,
+    });
+    console.log(newItem.amount);
+  };
+
+  addCredit = (e) => {
+    const today = new Date();
+    e.preventDefault();
+    const newItem = { amount: 0, date: "", description: "" };
+    newItem.amount = +parseFloat(e.target[1].value).toFixed(2);
+    newItem.date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    newItem.description = e.target[0].value;
+    this.setState({ creditList: this.state.creditList.concat(newItem) });
+    this.setState({
+      accountBalance: this.state.accountBalance + newItem.amount,
+    });
+    console.log(newItem.amount);
   };
 
   // Update state's currentUser (userName) after "Log In" button is clicked
@@ -80,7 +100,9 @@ class App extends Component {
     const LogInComponent = () => (
       <LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />
     );
-    const CreditsComponent = () => <Credits credits={this.state.creditList} />;
+    const CreditsComponent = () => (
+      <Credits credits={this.state.creditList} addCredit={this.addCredit} />
+    );
     const DebitsComponent = () => (
       <Debits debits={this.state.debitList} addDebit={this.addDebit} />
     );
