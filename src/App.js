@@ -40,6 +40,24 @@ class App extends Component {
       .then((result) => this.setState({ creditList: result }));
   }
 
+  addDebit = (e) => {
+    const today = new Date();
+    e.preventDefault();
+    const newItem = { amount: 0, date: "", description: "" };
+    newItem.amount = e.target[1].value;
+    newItem.date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    newItem.description = e.target[0].value;
+    this.setState({ debitList: this.state.debitList.concat(newItem) });
+    console.log(
+      today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate()
+    );
+  };
+
   // Update state's currentUser (userName) after "Log In" button is clicked
   mockLogIn = (logInInfo) => {
     const newUser = { ...this.state.currentUser };
@@ -63,7 +81,9 @@ class App extends Component {
       <LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />
     );
     const CreditsComponent = () => <Credits credits={this.state.creditList} />;
-    const DebitsComponent = () => <Debits debits={this.state.debitList} />;
+    const DebitsComponent = () => (
+      <Debits debits={this.state.debitList} addDebit={this.addDebit} />
+    );
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (
